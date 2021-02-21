@@ -12,7 +12,7 @@ import kotlinx.serialization.Serializable
 class Stomp (
         override val status: EStatus,
         val sustain : Byte,
-        val output : Byte, ):
+        val output : Byte):
         Compressor(ECompressorType.STOMP) {
 
     constructor(dump: ByteArray): this(
