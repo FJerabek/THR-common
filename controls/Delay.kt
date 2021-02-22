@@ -2,17 +2,46 @@ package cz.fjerabek.thr.data.controls
 
 import cz.fjerabek.thr.data.enums.EStatus
 import cz.fjerabek.thr.data.enums.delay.EDelay
+import cz.fjerabek.thr.data.enums.gate.EGate
+import cz.fjerabek.thr.data.enums.reverb.EHall
+import cz.fjerabek.thr.data.enums.reverb.EReverb
+import cz.fjerabek.thr.data.enums.reverb.EReverbType
 import kotlinx.serialization.Serializable
+import java.security.InvalidParameterException
 
 @Serializable
 class Delay(
-    val status : EStatus,
-    val time : Int,
-    val feedback : Byte,
-    val highCut : Int,
-    val lowCut : Int,
-    val level : Byte
+    var status : EStatus,
+    var time : Int,
+    var feedback : Byte,
+    var highCut : Int,
+    var lowCut : Int,
+    var level : Byte
 ) : IControl {
+
+    override fun setPropertyById(id: Byte, value: Int) {
+        when (id) {
+            EDelay.STATUS.propertyId -> status = TypeConverter.convert(value)
+            EDelay.TIME.propertyId -> time = TypeConverter.convert(value)
+            EDelay.FEEDBACK.propertyId -> feedback = TypeConverter.convert(value)
+            EDelay.HIGH_CUT.propertyId -> highCut = TypeConverter.convert(value)
+            EDelay.LOW_CUT.propertyId -> lowCut = TypeConverter.convert(value)
+            EDelay.LEVEL.propertyId -> level = TypeConverter.convert(value)
+            else -> throw InvalidParameterException("Invalid id property ID($id)")
+        }
+    }
+
+    override fun getPropertyById(id: Byte): Any? {
+        return when(id){
+            EDelay.STATUS.propertyId -> status
+            EDelay.TIME.propertyId -> time
+            EDelay.FEEDBACK.propertyId -> feedback
+            EDelay.HIGH_CUT.propertyId -> highCut
+            EDelay.LOW_CUT.propertyId -> lowCut
+            EDelay.LEVEL.propertyId -> level
+            else -> null
+        }
+    }
 
     override fun toDump(dump: ByteArray): ByteArray {
         dump[EDelay.STATUS.dumpPosition.first] = status.value

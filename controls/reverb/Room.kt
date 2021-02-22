@@ -1,24 +1,54 @@
 package cz.fjerabek.thr.data.controls.reverb
 
+import cz.fjerabek.thr.data.controls.TypeConverter
 import cz.fjerabek.thr.data.enums.EStatus
-import cz.fjerabek.thr.data.enums.reverb.EReverb
-import cz.fjerabek.thr.data.enums.reverb.EReverbType
-import cz.fjerabek.thr.data.enums.reverb.ERoom
+import cz.fjerabek.thr.data.enums.reverb.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.security.InvalidParameterException
 
 @Serializable
 @SerialName("Room")
 class Room(
-        override val status: EStatus,
-        val time: Int,
-        val preDelay: Int,
-        val lowCut: Int,
-        val highCut: Int,
-        val highRatio: Byte,
-        val lowRatio: Byte,
-        val level: Byte
+        override var status: EStatus,
+        var time: Int,
+        var preDelay: Int,
+        var lowCut: Int,
+        var highCut: Int,
+        var highRatio: Byte,
+        var lowRatio: Byte,
+        var level: Byte
 ) : Reverb(EReverbType.ROOM) {
+
+    override fun setPropertyById(id: Byte, value: Int) {
+        when (id) {
+            EReverb.STATUS.propertyId -> status = TypeConverter.convert(value)
+            ERoom.TIME.propertyId -> time = TypeConverter.convert(value)
+            ERoom.PRE_DELAY.propertyId -> preDelay = TypeConverter.convert(value)
+            ERoom.LOW_CUT.propertyId -> lowCut = TypeConverter.convert(value)
+            ERoom.HIGH_CUT.propertyId -> highCut = TypeConverter.convert(value)
+            ERoom.HIGH_RATIO.propertyId -> highRatio = TypeConverter.convert(value)
+            ERoom.LOW_RATIO.propertyId -> lowRatio = TypeConverter.convert(value)
+            ERoom.LEVEL.propertyId -> level = TypeConverter.convert(value)
+            else -> throw InvalidParameterException("Invalid id property ID($id)")
+        }
+    }
+
+    override fun getPropertyById(id: Byte): Any? {
+        return when(id){
+            EReverb.STATUS.propertyId -> status
+            EReverb.TYPE.propertyId -> EReverbType.ROOM
+            ERoom.TIME.propertyId -> time
+            ERoom.PRE_DELAY.propertyId -> preDelay
+            ERoom.LOW_CUT.propertyId -> lowCut
+            ERoom.HIGH_CUT.propertyId -> highCut
+            ERoom.HIGH_RATIO.propertyId -> highRatio
+            ERoom.LOW_RATIO.propertyId -> lowRatio
+            ERoom.LEVEL.propertyId -> level
+            else -> null
+        }
+    }
+
 
     constructor(dump: ByteArray): this(
             EStatus.fromValue(dump[EReverb.STATUS.dumpPosition])!!,

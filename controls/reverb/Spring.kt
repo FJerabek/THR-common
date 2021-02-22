@@ -1,24 +1,46 @@
 package cz.fjerabek.thr.data.controls.reverb
 
+import cz.fjerabek.thr.data.controls.TypeConverter
 import cz.fjerabek.thr.data.enums.EStatus
 import cz.fjerabek.thr.data.enums.reverb.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.security.InvalidParameterException
 
 
 @Serializable
 @SerialName("Spring")
 class Spring(
-        override val status: EStatus,
-        val reverb : Byte,
-        val filter : Byte
+    override var status: EStatus,
+    var reverb: Byte,
+    var filter: Byte
 ) : Reverb(EReverbType.SPRING) {
 
-    constructor(dump: ByteArray): this(
-            EStatus.fromValue(dump[EReverb.STATUS.dumpPosition])!!,
-            dump[ESpring.REVERB.dumpPosition],
-            dump[ESpring.FILTER.dumpPosition]
+    override fun setPropertyById(id: Byte, value: Int) {
+        when (id) {
+            EReverb.STATUS.propertyId -> status = TypeConverter.convert(value)
+            ESpring.REVERB.propertyId -> reverb = TypeConverter.convert(value)
+            ESpring.FILTER.propertyId -> filter = TypeConverter.convert(value)
+            else -> throw InvalidParameterException("Invalid id property ID($id)")
+        }
+    }
+
+    override fun getPropertyById(id: Byte): Any? {
+        return when (id) {
+            EReverb.STATUS.propertyId -> status
+            EReverb.TYPE.propertyId -> EReverbType.HALL
+            ESpring.REVERB.propertyId -> reverb
+            ESpring.FILTER.propertyId -> filter
+            else -> null
+        }
+    }
+
+    constructor(dump: ByteArray) : this(
+        EStatus.fromValue(dump[EReverb.STATUS.dumpPosition])!!,
+        dump[ESpring.REVERB.dumpPosition],
+        dump[ESpring.FILTER.dumpPosition]
     )
+
     override fun toDump(dump: ByteArray): ByteArray {
         dump[ESpring.REVERB.dumpPosition] = reverb
         dump[ESpring.FILTER.dumpPosition] = filter

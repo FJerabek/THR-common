@@ -1,23 +1,53 @@
 package cz.fjerabek.thr.data.controls.compressor
 
+import cz.fjerabek.thr.data.controls.TypeConverter
 import cz.fjerabek.thr.data.enums.EStatus
 import cz.fjerabek.thr.data.enums.compressor.ECompressor
 import cz.fjerabek.thr.data.enums.compressor.ECompressorType
 import cz.fjerabek.thr.data.enums.compressor.ERack
+import cz.fjerabek.thr.data.enums.compressor.EStomp
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.security.InvalidParameterException
 
 @Serializable
 @SerialName("Rack")
 class Rack(
-        override val status: EStatus,
-        val threshold : Int,
-        val attack: Byte,
-        val release : Byte,
-        val ratio : Byte,
-        val knee : Byte,
-        val output : Int
+        override var status: EStatus,
+        var threshold : Int,
+        var attack: Byte,
+        var release : Byte,
+        var ratio : Byte,
+        var knee : Byte,
+        var output : Int
 ): Compressor(ECompressorType.RACK) {
+
+    override fun setPropertyById(id: Byte, value: Int) {
+        when(id){
+            ECompressor.STATUS.propertyId -> status = TypeConverter.convert(value)
+            ERack.THRESHOLD.propertyId -> threshold = TypeConverter.convert(value)
+            ERack.ATTACK.propertyId -> attack = TypeConverter.convert(value)
+            ERack.RELEASE.propertyId -> release = TypeConverter.convert(value)
+            ERack.RATIO.propertyId -> ratio = TypeConverter.convert(value)
+            ERack.KNEE.propertyId -> knee = TypeConverter.convert(value)
+            ERack.OUTPUT.propertyId -> output = TypeConverter.convert(value)
+            else -> throw InvalidParameterException("Invalid id property ID($id)")
+        }
+    }
+
+    override fun getPropertyById(id: Byte): Any? {
+        return when(id){
+            ECompressor.STATUS.propertyId -> status
+            ECompressor.TYPE.propertyId -> ECompressorType.RACK
+            ERack.THRESHOLD.propertyId -> threshold
+            ERack.ATTACK.propertyId -> attack
+            ERack.RELEASE.propertyId -> release
+            ERack.RATIO.propertyId -> ratio
+            ERack.KNEE.propertyId -> knee
+            ERack.OUTPUT.propertyId -> output
+            else -> null
+        }
+    }
 
     constructor(dump: ByteArray): this(
             EStatus.fromValue(dump[ECompressor.STATUS.dumpPosition])!!,
