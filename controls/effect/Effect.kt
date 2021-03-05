@@ -10,8 +10,7 @@ import kotlinx.serialization.Transient
 @Serializable
 abstract class Effect(
     //Default value is useless since it is specified by inheriting class
-    @Transient
-    val effectType: EEffectType = EEffectType.CHORUS
+    @Transient val effectType: EEffectType = EEffectType.CHORUS
 ) : IControl {
 
     abstract val status : EStatus

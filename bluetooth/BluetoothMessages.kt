@@ -35,6 +35,13 @@ class PresetsRq: IBluetoothMessage
 class CurrentPresetRq: IBluetoothMessage
 
 /**
+ * Request for current combo preset
+ */
+@Serializable
+@SerialName("CurrentPresetIndexRq")
+class CurrentPresetIndexRq: IBluetoothMessage
+
+/**
  * Request if THR is connected
  */
 @Serializable

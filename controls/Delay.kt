@@ -1,13 +1,9 @@
 package cz.fjerabek.thr.data.controls
 
 import cz.fjerabek.thr.data.enums.EStatus
+import cz.fjerabek.thr.data.enums.InvalidPropertyException
 import cz.fjerabek.thr.data.enums.delay.EDelay
-import cz.fjerabek.thr.data.enums.gate.EGate
-import cz.fjerabek.thr.data.enums.reverb.EHall
-import cz.fjerabek.thr.data.enums.reverb.EReverb
-import cz.fjerabek.thr.data.enums.reverb.EReverbType
 import kotlinx.serialization.Serializable
-import java.security.InvalidParameterException
 
 @Serializable
 class Delay(
@@ -27,7 +23,7 @@ class Delay(
             EDelay.HIGH_CUT.propertyId -> highCut = TypeConverter.convert(value)
             EDelay.LOW_CUT.propertyId -> lowCut = TypeConverter.convert(value)
             EDelay.LEVEL.propertyId -> level = TypeConverter.convert(value)
-            else -> throw InvalidParameterException("Invalid id property ID($id)")
+            else -> throw InvalidPropertyException("Invalid id property ID($id)")
         }
     }
 

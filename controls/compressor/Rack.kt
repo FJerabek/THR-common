@@ -2,13 +2,13 @@ package cz.fjerabek.thr.data.controls.compressor
 
 import cz.fjerabek.thr.data.controls.TypeConverter
 import cz.fjerabek.thr.data.enums.EStatus
+import cz.fjerabek.thr.data.enums.InvalidPropertyException
 import cz.fjerabek.thr.data.enums.compressor.ECompressor
 import cz.fjerabek.thr.data.enums.compressor.ECompressorType
 import cz.fjerabek.thr.data.enums.compressor.ERack
 import cz.fjerabek.thr.data.enums.compressor.EStomp
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.security.InvalidParameterException
 
 @Serializable
 @SerialName("Rack")
@@ -31,7 +31,7 @@ class Rack(
             ERack.RATIO.propertyId -> ratio = TypeConverter.convert(value)
             ERack.KNEE.propertyId -> knee = TypeConverter.convert(value)
             ERack.OUTPUT.propertyId -> output = TypeConverter.convert(value)
-            else -> throw InvalidParameterException("Invalid id property ID($id)")
+            else -> throw InvalidPropertyException("Invalid id property ID($id)")
         }
     }
 

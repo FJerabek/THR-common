@@ -2,6 +2,7 @@ package cz.fjerabek.thr.data.controls.reverb
 
 import cz.fjerabek.thr.data.controls.TypeConverter
 import cz.fjerabek.thr.data.enums.EStatus
+import cz.fjerabek.thr.data.enums.InvalidPropertyException
 import cz.fjerabek.thr.data.enums.compressor.ECompressor
 import cz.fjerabek.thr.data.enums.compressor.ECompressorType
 import cz.fjerabek.thr.data.enums.compressor.EStomp
@@ -12,7 +13,6 @@ import cz.fjerabek.thr.data.enums.reverb.EReverb
 import cz.fjerabek.thr.data.enums.reverb.EReverbType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.security.InvalidParameterException
 
 @Serializable
 @SerialName("Hall")
@@ -37,7 +37,7 @@ class Hall(
             EHall.HIGH_RATIO.propertyId -> highRatio = TypeConverter.convert(value)
             EHall.LOW_RATIO.propertyId -> lowRatio = TypeConverter.convert(value)
             EHall.LEVEL.propertyId -> level = TypeConverter.convert(value)
-            else -> throw InvalidParameterException("Invalid id property ID($id)")
+            else -> throw InvalidPropertyException("Invalid id property ID($id)")
         }
     }
 

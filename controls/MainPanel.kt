@@ -1,10 +1,10 @@
 package cz.fjerabek.thr.data.controls
 
+import cz.fjerabek.thr.data.enums.InvalidPropertyException
 import cz.fjerabek.thr.data.enums.mainpanel.EAmpType
 import cz.fjerabek.thr.data.enums.mainpanel.ECabinetType
 import cz.fjerabek.thr.data.enums.mainpanel.EMainPanel
 import kotlinx.serialization.Serializable
-import java.security.InvalidParameterException
 
 @Serializable
 class MainPanel(
@@ -38,7 +38,7 @@ class MainPanel(
             EMainPanel.MIDDLE.propertyId -> middle = TypeConverter.convert(value)
             EMainPanel.TREBLE.propertyId -> treble = TypeConverter.convert(value)
             EMainPanel.CABINET.propertyId -> cabinet = if(value < 6) TypeConverter.convert(value) else null
-            else -> throw InvalidParameterException("Invalid id property ID($id)")
+            else -> throw InvalidPropertyException("Invalid id property ID($id)")
         }
     }
 

@@ -2,13 +2,13 @@ package cz.fjerabek.thr.data.controls.effect
 
 import cz.fjerabek.thr.data.controls.TypeConverter
 import cz.fjerabek.thr.data.enums.EStatus
+import cz.fjerabek.thr.data.enums.InvalidPropertyException
 import cz.fjerabek.thr.data.enums.effect.EChorus
 import cz.fjerabek.thr.data.enums.effect.EEffect
 import cz.fjerabek.thr.data.enums.effect.EEffectType
 import cz.fjerabek.thr.data.enums.effect.EFlanger
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.security.InvalidParameterException
 
 @Serializable
 @SerialName("Flanger")
@@ -31,7 +31,7 @@ class Flanger(
             EFlanger.MANUAL.propertyId -> manual = TypeConverter.convert(value)
             EFlanger.FEEDBACK.propertyId -> feedback = TypeConverter.convert(value)
             EFlanger.SPREAD.propertyId -> spread = TypeConverter.convert(value)
-            else -> throw InvalidParameterException("Invalid id property ID($id)")
+            else -> throw InvalidPropertyException("Invalid id property ID($id)")
         }
     }
 
@@ -44,7 +44,7 @@ class Flanger(
             EFlanger.MANUAL.propertyId -> manual
             EFlanger.FEEDBACK.propertyId -> feedback
             EFlanger.SPREAD.propertyId -> spread
-            else -> throw InvalidParameterException("Invalid id property ID($id)")
+            else -> null
         }
     }
 

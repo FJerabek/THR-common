@@ -2,8 +2,18 @@ package cz.fjerabek.thr.data.midi
 
 import cz.fjerabek.thr.data.controls.*
 import cz.fjerabek.thr.data.controls.compressor.Compressor
-import cz.fjerabek.thr.data.controls.effect.Effect
-import cz.fjerabek.thr.data.controls.reverb.Reverb
+import cz.fjerabek.thr.data.controls.compressor.Rack
+import cz.fjerabek.thr.data.controls.compressor.Stomp
+import cz.fjerabek.thr.data.controls.effect.*
+import cz.fjerabek.thr.data.controls.reverb.*
+import cz.fjerabek.thr.data.enums.InvalidPropertyException
+import cz.fjerabek.thr.data.enums.compressor.ECompressor
+import cz.fjerabek.thr.data.enums.compressor.ECompressorType
+import cz.fjerabek.thr.data.enums.compressor.ERack
+import cz.fjerabek.thr.data.enums.effect.EEffect
+import cz.fjerabek.thr.data.enums.effect.EEffectType
+import cz.fjerabek.thr.data.enums.reverb.EReverb
+import cz.fjerabek.thr.data.enums.reverb.EReverbType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -37,7 +47,7 @@ class PresetMessage(
     }
 
     private fun getControlById(id: Byte): IControl? {
-        return when(id) {
+        return when (id) {
             in 0x00..0x06 -> {
                 mainPanel
             }
@@ -50,16 +60,73 @@ class PresetMessage(
             in 0x30..0x3F -> {
                 delay
             }
-            in 0x41..0x4F -> {
+            in 0x40..0x4F -> {
                 reverb
+            }
+            in 0x50..0x5F -> {
+                gate
             }
             else -> null
         }
     }
 
     fun setByControlPropertyId(id: Byte, value: Int) {
-        //Todo: Implement type change
-        getControlById(id)?.setPropertyById(id, value)
+        val dumpArray = prefix + ByteArray(257) { 0 }
+        when (id) {
+            ECompressor.TYPE.propertyId -> {
+                compressor = compressor!!.toDump(dumpArray).let {
+                    when (value.toByte()) {
+                        ECompressorType.STOMP.id -> {
+                            Stomp(it)
+                        }
+                        ECompressorType.RACK.id -> {
+                            Rack(it)
+                        }
+                        else -> throw InvalidPropertyException("Compressor type change property value invalid")
+                    }
+                }
+            }
+            EEffect.TYPE.propertyId -> {
+                effect = effect!!.toDump(dumpArray).let {
+                    when (value.toByte()) {
+                        EEffectType.PHASER.id -> {
+                            Phaser(it)
+                        }
+                        EEffectType.TREMOLO.id -> {
+                            Tremolo(it)
+                        }
+                        EEffectType.FLANGER.id -> {
+                            Flanger(it)
+                        }
+                        EEffectType.CHORUS.id -> {
+                            Chorus(it)
+                        }
+                        else -> throw InvalidPropertyException("Effect type change property value invalid")
+                    }
+                }
+            }
+            EReverb.TYPE.propertyId -> {
+                reverb = reverb!!.toDump(dumpArray).let {
+                    when (value.toByte()) {
+                        EReverbType.ROOM.id -> {
+                            Room(it)
+                        }
+                        EReverbType.PLATE.id -> {
+                            Plate(it)
+                        }
+                        EReverbType.HALL.id -> {
+                            Hall(it)
+                        }
+                        EReverbType.SPRING.id -> {
+                            Spring(it)
+                        }
+                        else -> throw InvalidPropertyException("Reverb type change property value invalid")
+                    }
+                }
+            }
+            else -> getControlById(id)?.setPropertyById(id, value)
+        }
+
     }
 
     private fun calculateChecksum(data: ByteArray): Byte {

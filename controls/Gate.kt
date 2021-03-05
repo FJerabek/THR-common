@@ -1,13 +1,13 @@
 package cz.fjerabek.thr.data.controls
 
 import cz.fjerabek.thr.data.enums.EStatus
+import cz.fjerabek.thr.data.enums.InvalidPropertyException
 import cz.fjerabek.thr.data.enums.gate.EGate
 import cz.fjerabek.thr.data.enums.mainpanel.EMainPanel
 import cz.fjerabek.thr.data.enums.reverb.EHall
 import cz.fjerabek.thr.data.enums.reverb.EReverb
 import cz.fjerabek.thr.data.enums.reverb.EReverbType
 import kotlinx.serialization.Serializable
-import java.security.InvalidParameterException
 
 @Serializable
 class Gate(
@@ -21,7 +21,7 @@ class Gate(
             EGate.STATUS.propertyId -> status = TypeConverter.convert(value)
             EGate.THRESHOLD.propertyId -> threshold = TypeConverter.convert(value)
             EGate.RELEASE.propertyId -> release = TypeConverter.convert(value)
-            else -> throw InvalidParameterException("Invalid id property ID($id)")
+            else -> throw InvalidPropertyException("Invalid id property ID($id)")
         }
     }
 

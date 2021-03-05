@@ -2,10 +2,10 @@ package cz.fjerabek.thr.data.controls.reverb
 
 import cz.fjerabek.thr.data.controls.TypeConverter
 import cz.fjerabek.thr.data.enums.EStatus
+import cz.fjerabek.thr.data.enums.InvalidPropertyException
 import cz.fjerabek.thr.data.enums.reverb.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.security.InvalidParameterException
 
 
 @Serializable
@@ -21,7 +21,7 @@ class Spring(
             EReverb.STATUS.propertyId -> status = TypeConverter.convert(value)
             ESpring.REVERB.propertyId -> reverb = TypeConverter.convert(value)
             ESpring.FILTER.propertyId -> filter = TypeConverter.convert(value)
-            else -> throw InvalidParameterException("Invalid id property ID($id)")
+            else -> throw InvalidPropertyException("Invalid id property ID($id)")
         }
     }
 

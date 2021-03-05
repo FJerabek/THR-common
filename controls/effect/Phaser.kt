@@ -2,10 +2,10 @@ package cz.fjerabek.thr.data.controls.effect
 
 import cz.fjerabek.thr.data.controls.TypeConverter
 import cz.fjerabek.thr.data.enums.EStatus
+import cz.fjerabek.thr.data.enums.InvalidPropertyException
 import cz.fjerabek.thr.data.enums.effect.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.security.InvalidParameterException
 
 @Serializable
 @SerialName("Phaser")
@@ -24,7 +24,7 @@ class Phaser (
             EPhaser.DEPTH.propertyId -> depth = TypeConverter.convert(value)
             EPhaser.MANUAL.propertyId -> manual = TypeConverter.convert(value)
             EPhaser.FEEDBACK.propertyId -> feedback = TypeConverter.convert(value)
-            else -> throw InvalidParameterException("Invalid id property ID($id)")
+            else -> throw InvalidPropertyException("Invalid id property ID($id)")
         }
     }
 
@@ -36,7 +36,7 @@ class Phaser (
             EPhaser.DEPTH.propertyId -> depth
             EPhaser.MANUAL.propertyId -> manual
             EPhaser.FEEDBACK.propertyId -> feedback
-            else -> throw InvalidParameterException("Invalid id property ID($id)")
+            else -> null
         }
     }
 
