@@ -7,7 +7,7 @@ import cz.fjerabek.thr.data.enums.mainpanel.EMainPanel
 import kotlinx.serialization.Serializable
 
 @Serializable
-class MainPanel(
+data class MainPanel(
     var amp: EAmpType,
     var gain: Byte,
     var master: Byte,
@@ -37,7 +37,8 @@ class MainPanel(
             EMainPanel.BASS.propertyId -> bass = TypeConverter.convert(value)
             EMainPanel.MIDDLE.propertyId -> middle = TypeConverter.convert(value)
             EMainPanel.TREBLE.propertyId -> treble = TypeConverter.convert(value)
-            EMainPanel.CABINET.propertyId -> cabinet = if(value < 6) TypeConverter.convert(value) else null
+            EMainPanel.CABINET.propertyId -> cabinet =
+                if (value < 6) TypeConverter.convert(value) else null
             else -> throw InvalidPropertyException("Invalid id property ID($id)")
         }
     }

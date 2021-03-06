@@ -13,7 +13,9 @@ abstract class Effect(
     @Transient val effectType: EEffectType = EEffectType.CHORUS
 ) : IControl {
 
-    abstract val status : EStatus
+    abstract val status: EStatus
+
+    abstract fun duplicate(): Effect
 
     override fun toDump(dump: ByteArray): ByteArray {
         dump[EEffect.STATUS.dumpPosition] = status.value
@@ -23,9 +25,9 @@ abstract class Effect(
 
 
     companion object {
-        fun fromDump(dump : ByteArray) : Effect {
+        fun fromDump(dump: ByteArray): Effect {
 
-            return when(EEffectType.fromId(dump[EEffect.TYPE.dumpPosition])!!) {
+            return when (EEffectType.fromId(dump[EEffect.TYPE.dumpPosition])!!) {
                 EEffectType.CHORUS -> Chorus(dump)
                 EEffectType.FLANGER -> Flanger(dump)
                 EEffectType.TREMOLO -> Tremolo(dump)

@@ -16,7 +16,9 @@ abstract class Reverb(
     val reverbType: EReverbType = EReverbType.HALL
 ) : IControl {
 
-    abstract val status : EStatus
+    abstract val status: EStatus
+
+    abstract fun duplicate(): Reverb;
 
     override fun toDump(dump: ByteArray): ByteArray {
         dump[EReverb.STATUS.dumpPosition] = status.value
@@ -25,9 +27,9 @@ abstract class Reverb(
     }
 
     companion object {
-        fun fromDump(dump : ByteArray) : Reverb {
+        fun fromDump(dump: ByteArray): Reverb {
 
-            return when(EReverbType.fromId(dump[EReverb.TYPE.dumpPosition])!!) {
+            return when (EReverbType.fromId(dump[EReverb.TYPE.dumpPosition])!!) {
                 EReverbType.HALL -> Hall(dump)
                 EReverbType.ROOM -> Room(dump)
                 EReverbType.PLATE -> Plate(dump)

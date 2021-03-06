@@ -16,6 +16,7 @@ abstract class Compressor(
 
     abstract val status : EStatus
 
+    abstract fun duplicate(): Compressor
 
     override fun toDump(dump: ByteArray): ByteArray {
         dump[ECompressor.STATUS.dumpPosition] = status.value

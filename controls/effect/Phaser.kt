@@ -3,19 +3,23 @@ package cz.fjerabek.thr.data.controls.effect
 import cz.fjerabek.thr.data.controls.TypeConverter
 import cz.fjerabek.thr.data.enums.EStatus
 import cz.fjerabek.thr.data.enums.InvalidPropertyException
-import cz.fjerabek.thr.data.enums.effect.*
+import cz.fjerabek.thr.data.enums.effect.EEffect
+import cz.fjerabek.thr.data.enums.effect.EEffectType
+import cz.fjerabek.thr.data.enums.effect.EPhaser
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 @SerialName("Phaser")
-class Phaser (
-        override var status: EStatus,
-        var speed : Byte,
-        var manual : Byte,
-        var depth : Byte,
-        var feedback : Byte) : Effect(EEffectType.PHASER) {
+data class Phaser(
+    override var status: EStatus,
+    var speed: Byte,
+    var manual: Byte,
+    var depth: Byte,
+    var feedback: Byte
+) : Effect(EEffectType.PHASER) {
 
+    override fun duplicate() = this.copy()
 
     override fun setPropertyById(id: Byte, value: Int) {
         when (id) {
@@ -29,7 +33,7 @@ class Phaser (
     }
 
     override fun getPropertyById(id: Byte): Any? {
-        return when(id){
+        return when (id) {
             EEffect.STATUS.propertyId -> status
             EEffect.TYPE.propertyId -> EEffectType.PHASER
             EPhaser.SPEED.propertyId -> speed
@@ -40,12 +44,12 @@ class Phaser (
         }
     }
 
-    constructor(dump: ByteArray): this(
-            EStatus.fromValue(dump[EEffect.STATUS.dumpPosition])!!,
-            dump[EPhaser.SPEED.dumpPosition],
-            dump[EPhaser.MANUAL.dumpPosition],
-            dump[EPhaser.DEPTH.dumpPosition],
-            dump[EPhaser.FEEDBACK.dumpPosition]
+    constructor(dump: ByteArray) : this(
+        EStatus.fromValue(dump[EEffect.STATUS.dumpPosition])!!,
+        dump[EPhaser.SPEED.dumpPosition],
+        dump[EPhaser.MANUAL.dumpPosition],
+        dump[EPhaser.DEPTH.dumpPosition],
+        dump[EPhaser.FEEDBACK.dumpPosition]
     )
 
     override fun toDump(dump: ByteArray): ByteArray {

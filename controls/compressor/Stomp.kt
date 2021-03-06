@@ -11,15 +11,17 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @SerialName("Stomp")
-class Stomp (
-        override var status: EStatus,
-        var sustain : Byte,
-        var output : Byte):
-        Compressor(ECompressorType.STOMP) {
+data class Stomp(
+    override var status: EStatus,
+    var sustain: Byte,
+    var output: Byte
+) :
+    Compressor(ECompressorType.STOMP) {
 
 
+    override fun duplicate() = this.copy()
     override fun setPropertyById(id: Byte, value: Int) {
-        when(id){
+        when (id) {
             ECompressor.STATUS.propertyId -> status = TypeConverter.convert(value)
             EStomp.SUSTAIN.propertyId -> sustain = TypeConverter.convert(value)
             EStomp.OUTPUT.propertyId -> output = TypeConverter.convert(value)
@@ -28,7 +30,7 @@ class Stomp (
     }
 
     override fun getPropertyById(id: Byte): Any? {
-        return when(id){
+        return when (id) {
             ECompressor.STATUS.propertyId -> status
             ECompressor.TYPE.propertyId -> ECompressorType.STOMP
             EStomp.SUSTAIN.propertyId -> sustain
@@ -37,10 +39,10 @@ class Stomp (
         }
     }
 
-    constructor(dump: ByteArray): this(
-            EStatus.fromValue(dump[ECompressor.STATUS.dumpPosition])!!,
-            dump[EStomp.SUSTAIN.dumpPosition],
-            dump[EStomp.OUTPUT.dumpPosition]
+    constructor(dump: ByteArray) : this(
+        EStatus.fromValue(dump[ECompressor.STATUS.dumpPosition])!!,
+        dump[EStomp.SUSTAIN.dumpPosition],
+        dump[EStomp.OUTPUT.dumpPosition]
     )
 
     override fun toDump(dump: ByteArray): ByteArray {

@@ -3,17 +3,13 @@ package cz.fjerabek.thr.data.controls
 import cz.fjerabek.thr.data.enums.EStatus
 import cz.fjerabek.thr.data.enums.InvalidPropertyException
 import cz.fjerabek.thr.data.enums.gate.EGate
-import cz.fjerabek.thr.data.enums.mainpanel.EMainPanel
-import cz.fjerabek.thr.data.enums.reverb.EHall
-import cz.fjerabek.thr.data.enums.reverb.EReverb
-import cz.fjerabek.thr.data.enums.reverb.EReverbType
 import kotlinx.serialization.Serializable
 
 @Serializable
-class Gate(
-    var status : EStatus,
-    var threshold : Byte,
-    var release : Byte
+data class Gate(
+    var status: EStatus,
+    var threshold: Byte,
+    var release: Byte
 ) : IControl {
 
     override fun setPropertyById(id: Byte, value: Int) {
@@ -26,7 +22,7 @@ class Gate(
     }
 
     override fun getPropertyById(id: Byte): Any? {
-        return when(id){
+        return when (id) {
             EGate.STATUS.propertyId -> status
             EGate.THRESHOLD.propertyId -> threshold
             EGate.RELEASE.propertyId -> release
@@ -42,11 +38,12 @@ class Gate(
     }
 
     companion object {
-        fun fromDump(dump : ByteArray) : Gate {
+        fun fromDump(dump: ByteArray): Gate {
             return Gate(
                 EStatus.fromValue(dump[EGate.STATUS.dumpPosition])!!,
                 dump[EGate.THRESHOLD.dumpPosition],
-                dump[EGate.RELEASE.dumpPosition])
+                dump[EGate.RELEASE.dumpPosition]
+            )
         }
     }
 }
