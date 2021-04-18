@@ -3,19 +3,22 @@ package cz.fjerabek.thr.data.controls.reverb
 import cz.fjerabek.thr.data.controls.TypeConverter
 import cz.fjerabek.thr.data.enums.EStatus
 import cz.fjerabek.thr.data.enums.InvalidPropertyException
-import cz.fjerabek.thr.data.enums.reverb.*
+import cz.fjerabek.thr.data.enums.reverb.EReverb
+import cz.fjerabek.thr.data.enums.reverb.EReverbType
+import cz.fjerabek.thr.data.enums.reverb.ESpring
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
 @Serializable
 @SerialName("Spring")
-class Spring(
+data class Spring(
     override var status: EStatus,
     var reverb: Byte,
     var filter: Byte
 ) : Reverb(EReverbType.SPRING) {
 
+    override fun duplicate() = this.copy()
     override fun setPropertyById(id: Byte, value: Int) {
         when (id) {
             EReverb.STATUS.propertyId -> status = TypeConverter.convert(value)

@@ -3,12 +3,7 @@ package cz.fjerabek.thr.data.controls.reverb
 import cz.fjerabek.thr.data.controls.TypeConverter
 import cz.fjerabek.thr.data.enums.EStatus
 import cz.fjerabek.thr.data.enums.InvalidPropertyException
-import cz.fjerabek.thr.data.enums.compressor.ECompressor
-import cz.fjerabek.thr.data.enums.compressor.ECompressorType
-import cz.fjerabek.thr.data.enums.compressor.EStomp
-import cz.fjerabek.thr.data.enums.effect.EEffectType
 import cz.fjerabek.thr.data.enums.reverb.EHall
-import cz.fjerabek.thr.data.enums.reverb.EPlate
 import cz.fjerabek.thr.data.enums.reverb.EReverb
 import cz.fjerabek.thr.data.enums.reverb.EReverbType
 import kotlinx.serialization.SerialName
@@ -16,17 +11,18 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @SerialName("Hall")
-class Hall(
-        override var status: EStatus,
-        var time: Int,
-        var preDelay: Int,
-        var lowCut: Int,
-        var highCut: Int,
-        var highRatio: Byte,
-        var lowRatio: Byte,
-        var level: Byte
+data class Hall(
+    override var status: EStatus,
+    var time: Int,
+    var preDelay: Int,
+    var lowCut: Int,
+    var highCut: Int,
+    var highRatio: Byte,
+    var lowRatio: Byte,
+    var level: Byte
 ) : Reverb(EReverbType.SPRING) {
 
+    override fun duplicate() = this.copy()
     override fun setPropertyById(id: Byte, value: Int) {
         when (id) {
             EReverb.STATUS.propertyId -> status = TypeConverter.convert(value)
@@ -42,7 +38,7 @@ class Hall(
     }
 
     override fun getPropertyById(id: Byte): Any? {
-        return when(id){
+        return when (id) {
             EReverb.STATUS.propertyId -> status
             EReverb.TYPE.propertyId -> EReverbType.HALL
             EHall.TIME.propertyId -> time
@@ -56,15 +52,15 @@ class Hall(
         }
     }
 
-    constructor(dump: ByteArray): this(
-            EStatus.fromValue(dump[EReverb.STATUS.dumpPosition])!!,
-            (dump[EHall.TIME.dumpPosition.first] * 128) + dump[EHall.TIME.dumpPosition.second],
-            (dump[EHall.PRE_DELAY.dumpPosition.first] * 128) + dump[EHall.PRE_DELAY.dumpPosition.second],
-            (dump[EHall.LOW_CUT.dumpPosition.first] * 128) + dump[EHall.LOW_CUT.dumpPosition.second],
-            (dump[EHall.HIGH_CUT.dumpPosition.first] * 128) + dump[EHall.HIGH_CUT.dumpPosition.second],
-            dump[EHall.HIGH_RATIO.dumpPosition.first],
-            dump[EHall.LOW_RATIO.dumpPosition.first],
-            dump[EHall.LEVEL.dumpPosition.first]
+    constructor(dump: ByteArray) : this(
+        EStatus.fromValue(dump[EReverb.STATUS.dumpPosition])!!,
+        (dump[EHall.TIME.dumpPosition.first] * 128) + dump[EHall.TIME.dumpPosition.second],
+        (dump[EHall.PRE_DELAY.dumpPosition.first] * 128) + dump[EHall.PRE_DELAY.dumpPosition.second],
+        (dump[EHall.LOW_CUT.dumpPosition.first] * 128) + dump[EHall.LOW_CUT.dumpPosition.second],
+        (dump[EHall.HIGH_CUT.dumpPosition.first] * 128) + dump[EHall.HIGH_CUT.dumpPosition.second],
+        dump[EHall.HIGH_RATIO.dumpPosition.first],
+        dump[EHall.LOW_RATIO.dumpPosition.first],
+        dump[EHall.LEVEL.dumpPosition.first]
     )
 
     override fun toDump(dump: ByteArray): ByteArray {

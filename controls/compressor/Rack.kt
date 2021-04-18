@@ -6,24 +6,24 @@ import cz.fjerabek.thr.data.enums.InvalidPropertyException
 import cz.fjerabek.thr.data.enums.compressor.ECompressor
 import cz.fjerabek.thr.data.enums.compressor.ECompressorType
 import cz.fjerabek.thr.data.enums.compressor.ERack
-import cz.fjerabek.thr.data.enums.compressor.EStomp
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 @SerialName("Rack")
-class Rack(
-        override var status: EStatus,
-        var threshold : Int,
-        var attack: Byte,
-        var release : Byte,
-        var ratio : Byte,
-        var knee : Byte,
-        var output : Int
-): Compressor(ECompressorType.RACK) {
+data class Rack(
+    override var status: EStatus,
+    var threshold: Int,
+    var attack: Byte,
+    var release: Byte,
+    var ratio: Byte,
+    var knee: Byte,
+    var output: Int
+) : Compressor(ECompressorType.RACK) {
 
+    override fun duplicate() = this.copy()
     override fun setPropertyById(id: Byte, value: Int) {
-        when(id){
+        when (id) {
             ECompressor.STATUS.propertyId -> status = TypeConverter.convert(value)
             ERack.THRESHOLD.propertyId -> threshold = TypeConverter.convert(value)
             ERack.ATTACK.propertyId -> attack = TypeConverter.convert(value)
@@ -36,7 +36,7 @@ class Rack(
     }
 
     override fun getPropertyById(id: Byte): Any? {
-        return when(id){
+        return when (id) {
             ECompressor.STATUS.propertyId -> status
             ECompressor.TYPE.propertyId -> ECompressorType.RACK
             ERack.THRESHOLD.propertyId -> threshold
@@ -49,14 +49,14 @@ class Rack(
         }
     }
 
-    constructor(dump: ByteArray): this(
-            EStatus.fromValue(dump[ECompressor.STATUS.dumpPosition])!!,
-            (dump[ERack.THRESHOLD.dumpPosition.first] * 128) + dump[ERack.THRESHOLD.dumpPosition.second],
-            dump[ERack.ATTACK.dumpPosition.first],
-            dump[ERack.RELEASE.dumpPosition.first],
-            dump[ERack.RATIO.dumpPosition.first],
-            dump[ERack.KNEE.dumpPosition.first],
-            (dump[ERack.OUTPUT.dumpPosition.first] * 128) + dump[ERack.OUTPUT.dumpPosition.second]
+    constructor(dump: ByteArray) : this(
+        EStatus.fromValue(dump[ECompressor.STATUS.dumpPosition])!!,
+        (dump[ERack.THRESHOLD.dumpPosition.first] * 128) + dump[ERack.THRESHOLD.dumpPosition.second],
+        dump[ERack.ATTACK.dumpPosition.first],
+        dump[ERack.RELEASE.dumpPosition.first],
+        dump[ERack.RATIO.dumpPosition.first],
+        dump[ERack.KNEE.dumpPosition.first],
+        (dump[ERack.OUTPUT.dumpPosition.first] * 128) + dump[ERack.OUTPUT.dumpPosition.second]
     )
 
     override fun toDump(dump: ByteArray): ByteArray {

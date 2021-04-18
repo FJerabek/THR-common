@@ -3,14 +3,16 @@ package cz.fjerabek.thr.data.controls.reverb
 import cz.fjerabek.thr.data.controls.TypeConverter
 import cz.fjerabek.thr.data.enums.EStatus
 import cz.fjerabek.thr.data.enums.InvalidPropertyException
-import cz.fjerabek.thr.data.enums.reverb.*
+import cz.fjerabek.thr.data.enums.reverb.EPlate
+import cz.fjerabek.thr.data.enums.reverb.EReverb
+import cz.fjerabek.thr.data.enums.reverb.EReverbType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
 @Serializable
 @SerialName("Plate")
-class Plate(
+data class Plate(
     override var status: EStatus,
     var time: Int,
     var preDelay: Int,
@@ -21,6 +23,7 @@ class Plate(
     var level: Byte
 ) : Reverb(EReverbType.PLATE) {
 
+    override fun duplicate() = this.copy()
     override fun setPropertyById(id: Byte, value: Int) {
         when (id) {
             EReverb.STATUS.propertyId -> status = TypeConverter.convert(value)

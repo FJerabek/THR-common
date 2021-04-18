@@ -3,23 +3,26 @@ package cz.fjerabek.thr.data.controls.reverb
 import cz.fjerabek.thr.data.controls.TypeConverter
 import cz.fjerabek.thr.data.enums.EStatus
 import cz.fjerabek.thr.data.enums.InvalidPropertyException
-import cz.fjerabek.thr.data.enums.reverb.*
+import cz.fjerabek.thr.data.enums.reverb.EReverb
+import cz.fjerabek.thr.data.enums.reverb.EReverbType
+import cz.fjerabek.thr.data.enums.reverb.ERoom
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 @SerialName("Room")
-class Room(
-        override var status: EStatus,
-        var time: Int,
-        var preDelay: Int,
-        var lowCut: Int,
-        var highCut: Int,
-        var highRatio: Byte,
-        var lowRatio: Byte,
-        var level: Byte
+data class Room(
+    override var status: EStatus,
+    var time: Int,
+    var preDelay: Int,
+    var lowCut: Int,
+    var highCut: Int,
+    var highRatio: Byte,
+    var lowRatio: Byte,
+    var level: Byte
 ) : Reverb(EReverbType.ROOM) {
 
+    override fun duplicate() = this.copy()
     override fun setPropertyById(id: Byte, value: Int) {
         when (id) {
             EReverb.STATUS.propertyId -> status = TypeConverter.convert(value)
@@ -35,7 +38,7 @@ class Room(
     }
 
     override fun getPropertyById(id: Byte): Any? {
-        return when(id){
+        return when (id) {
             EReverb.STATUS.propertyId -> status
             EReverb.TYPE.propertyId -> EReverbType.ROOM
             ERoom.TIME.propertyId -> time
@@ -50,15 +53,15 @@ class Room(
     }
 
 
-    constructor(dump: ByteArray): this(
-            EStatus.fromValue(dump[EReverb.STATUS.dumpPosition])!!,
-            (dump[ERoom.TIME.dumpPosition.first] * 128) + dump[ERoom.TIME.dumpPosition.second],
-            (dump[ERoom.PRE_DELAY.dumpPosition.first] * 128) + dump[ERoom.PRE_DELAY.dumpPosition.second],
-            (dump[ERoom.LOW_CUT.dumpPosition.first] * 128) + dump[ERoom.LOW_CUT.dumpPosition.second],
-            (dump[ERoom.HIGH_CUT.dumpPosition.first] * 128) + dump[ERoom.HIGH_CUT.dumpPosition.second],
-            dump[ERoom.HIGH_RATIO.dumpPosition.first],
-            dump[ERoom.LOW_RATIO.dumpPosition.first],
-            dump[ERoom.LEVEL.dumpPosition.first]
+    constructor(dump: ByteArray) : this(
+        EStatus.fromValue(dump[EReverb.STATUS.dumpPosition])!!,
+        (dump[ERoom.TIME.dumpPosition.first] * 128) + dump[ERoom.TIME.dumpPosition.second],
+        (dump[ERoom.PRE_DELAY.dumpPosition.first] * 128) + dump[ERoom.PRE_DELAY.dumpPosition.second],
+        (dump[ERoom.LOW_CUT.dumpPosition.first] * 128) + dump[ERoom.LOW_CUT.dumpPosition.second],
+        (dump[ERoom.HIGH_CUT.dumpPosition.first] * 128) + dump[ERoom.HIGH_CUT.dumpPosition.second],
+        dump[ERoom.HIGH_RATIO.dumpPosition.first],
+        dump[ERoom.LOW_RATIO.dumpPosition.first],
+        dump[ERoom.LEVEL.dumpPosition.first]
     )
 
     override fun toDump(dump: ByteArray): ByteArray {

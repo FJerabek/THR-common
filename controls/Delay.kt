@@ -6,13 +6,13 @@ import cz.fjerabek.thr.data.enums.delay.EDelay
 import kotlinx.serialization.Serializable
 
 @Serializable
-class Delay(
-    var status : EStatus,
-    var time : Int,
-    var feedback : Byte,
-    var highCut : Int,
-    var lowCut : Int,
-    var level : Byte
+data class Delay(
+    var status: EStatus,
+    var time: Int,
+    var feedback: Byte,
+    var highCut: Int,
+    var lowCut: Int,
+    var level: Byte
 ) : IControl {
 
     override fun setPropertyById(id: Byte, value: Int) {
@@ -28,7 +28,7 @@ class Delay(
     }
 
     override fun getPropertyById(id: Byte): Any? {
-        return when(id){
+        return when (id) {
             EDelay.STATUS.propertyId -> status
             EDelay.TIME.propertyId -> time
             EDelay.FEEDBACK.propertyId -> feedback
@@ -54,7 +54,7 @@ class Delay(
     }
 
     companion object {
-        fun fromDump(dump : ByteArray) : Delay {
+        fun fromDump(dump: ByteArray): Delay {
 
             return Delay(
                 EStatus.fromValue(dump[EDelay.STATUS.dumpPosition.first])!!,

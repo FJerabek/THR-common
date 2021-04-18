@@ -3,20 +3,21 @@ package cz.fjerabek.thr.data.controls.effect
 import cz.fjerabek.thr.data.controls.TypeConverter
 import cz.fjerabek.thr.data.enums.EStatus
 import cz.fjerabek.thr.data.enums.InvalidPropertyException
-import cz.fjerabek.thr.data.enums.effect.*
-import cz.fjerabek.thr.data.enums.reverb.EHall
-import cz.fjerabek.thr.data.enums.reverb.EReverb
+import cz.fjerabek.thr.data.enums.effect.EEffect
+import cz.fjerabek.thr.data.enums.effect.EEffectType
+import cz.fjerabek.thr.data.enums.effect.ETremolo
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 @SerialName("Tremolo")
-class Tremolo (
+data class Tremolo(
     override var status: EStatus,
-    var freq : Byte,
-    var depth : Byte
+    var freq: Byte,
+    var depth: Byte
 ) : Effect(EEffectType.TREMOLO) {
 
+    override fun duplicate() = this.copy()
     override fun setPropertyById(id: Byte, value: Int) {
         when (id) {
             EEffect.STATUS.propertyId -> status = TypeConverter.convert(value)
@@ -27,7 +28,7 @@ class Tremolo (
     }
 
     override fun getPropertyById(id: Byte): Any? {
-        return when(id){
+        return when (id) {
             EEffect.STATUS.propertyId -> status
             EEffect.TYPE.propertyId -> EEffectType.TREMOLO
             ETremolo.DEPTH.propertyId -> depth
@@ -36,10 +37,10 @@ class Tremolo (
         }
     }
 
-    constructor(dump: ByteArray): this(
-            EStatus.fromValue(dump[EEffect.STATUS.dumpPosition])!!,
-            dump[ETremolo.FREQ.dumpPosition],
-            dump[ETremolo.DEPTH.dumpPosition]
+    constructor(dump: ByteArray) : this(
+        EStatus.fromValue(dump[EEffect.STATUS.dumpPosition])!!,
+        dump[ETremolo.FREQ.dumpPosition],
+        dump[ETremolo.DEPTH.dumpPosition]
     )
 
     override fun toDump(dump: ByteArray): ByteArray {

@@ -19,7 +19,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @SerialName("Dump")
-class PresetMessage(
+data class PresetMessage(
     var name: String,
     var mainPanel: MainPanel,
     var compressor: Compressor? = null,
@@ -163,5 +163,16 @@ class PresetMessage(
             return dumpArray
         }
 
+    fun duplicate(): PresetMessage {
+        return PresetMessage(
+            name,
+            mainPanel.copy(),
+            compressor?.duplicate(),
+            effect?.duplicate(),
+            delay?.copy(),
+            reverb?.duplicate(),
+            gate?.copy()
+        )
+    }
 
 }
