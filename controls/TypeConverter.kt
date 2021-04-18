@@ -40,7 +40,6 @@ object TypeConverter {
         }
     }
 
-    @JvmStatic
     fun convert(value: Any): Int {
         return when (value) {
             is Byte -> value.toInt()
