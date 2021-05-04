@@ -17,6 +17,16 @@ import cz.fjerabek.thr.data.enums.reverb.EReverbType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Preset dump message. Contains all values from combo
+ * @param name preset name
+ * @param mainPanel main panel settings
+ * @param compressor compressor settings
+ * @param effect effect settings
+ * @param delay delay settings
+ * @param reverb reverb settings
+ * @param gate gate settings
+ */
 @Serializable
 @SerialName("Dump")
 data class PresetMessage(
@@ -42,10 +52,20 @@ data class PresetMessage(
         Gate.fromDump(dump)
     )
 
+    /**
+     * Returns value of property by its id
+     * @param id property id
+     * @return property value
+     */
     fun getByControlPropertyId(id: Byte): Any? {
         return getControlById(id)?.getPropertyById(id)
     }
 
+    /**
+     * Gets settings block representation by property ID
+     * @param id property ID
+     * @return Property representation
+     */
     private fun getControlById(id: Byte): IControl? {
         return when (id) {
             in 0x00..0x06 -> {
@@ -70,6 +90,11 @@ data class PresetMessage(
         }
     }
 
+    /**
+     * Sets value to property by its ID
+     * @param id property ID
+     * @param value property new value
+     */
     fun setByControlPropertyId(id: Byte, value: Int) {
         val dumpArray = prefix + ByteArray(257) { 0 }
         when (id) {
@@ -129,6 +154,11 @@ data class PresetMessage(
 
     }
 
+    /**
+     * Calculates checksum for provided data
+     * @param data data for checksum calculation
+     * @return calculated checksum
+     */
     private fun calculateChecksum(data: ByteArray): Byte {
         var count = 0x71
         for (i in data) {
@@ -142,6 +172,9 @@ data class PresetMessage(
             byteArrayOf(67, 125, 0, 2, 12, 68, 84, 65, 49, 65, 108, 108, 80, 0, 0, 127, 127)
     }
 
+    /**
+     * System exclusive representation
+     */
     override val sysex: ByteArray
         get() {
             val dumpArray = prefix + ByteArray(257) { 0 }
@@ -163,6 +196,10 @@ data class PresetMessage(
             return dumpArray
         }
 
+    /**
+     * Duplicates this object recursively
+     * @return duplicated object
+     */
     fun duplicate(): PresetMessage {
         return PresetMessage(
             name,

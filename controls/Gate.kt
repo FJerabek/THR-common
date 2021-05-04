@@ -5,6 +5,12 @@ import cz.fjerabek.thr.data.enums.InvalidPropertyException
 import cz.fjerabek.thr.data.enums.gate.EGate
 import kotlinx.serialization.Serializable
 
+/**
+ * Gate settings block
+ * @param status gate power statu
+ * @param threshold threshold value
+ * @param release release value
+ */
 @Serializable
 data class Gate(
     var status: EStatus,
@@ -38,6 +44,11 @@ data class Gate(
     }
 
     companion object {
+        /**
+         * Creates Gate settings object from midi dump data
+         * @param dump data for gate creation
+         * @return gate instance
+         */
         fun fromDump(dump: ByteArray): Gate {
             return Gate(
                 EStatus.fromValue(dump[EGate.STATUS.dumpPosition])!!,

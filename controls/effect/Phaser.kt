@@ -9,6 +9,14 @@ import cz.fjerabek.thr.data.enums.effect.EPhaser
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Phaser type of effect settings
+ * @param speed speed value
+ * @param depth depth value
+ * @param manual manual value
+ * @param feedback feedback value
+ * @param status effect status value
+ */
 @Serializable
 @SerialName("Phaser")
 data class Phaser(
@@ -44,6 +52,10 @@ data class Phaser(
         }
     }
 
+    /**
+     * Creates instance from MIDI dump data
+     * @param dump MIDI dump data
+     */
     constructor(dump: ByteArray) : this(
         EStatus.fromValue(dump[EEffect.STATUS.dumpPosition])!!,
         dump[EPhaser.SPEED.dumpPosition],

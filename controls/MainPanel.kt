@@ -6,6 +6,16 @@ import cz.fjerabek.thr.data.enums.mainpanel.ECabinetType
 import cz.fjerabek.thr.data.enums.mainpanel.EMainPanel
 import kotlinx.serialization.Serializable
 
+/**
+ * Main panel settings
+ * @param amp amplifier type
+ * @param gain gain value
+ * @param master master volume
+ * @param bass bass EQ
+ * @param middle middle EQ
+ * @param treble treble EQ
+ * @param cabinet cabinet type
+ */
 @Serializable
 data class MainPanel(
     var amp: EAmpType,
@@ -57,6 +67,11 @@ data class MainPanel(
     }
 
     companion object {
+        /**
+         * Creates main panel settings object from midi dump data
+         * @param dump data for main panel creation
+         * @return main panel instance
+         */
         fun fromDump(dump: ByteArray): MainPanel {
 
             val amp = EAmpType.fromId(dump[EMainPanel.AMP.dumpPosition])!!

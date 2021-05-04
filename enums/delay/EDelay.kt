@@ -2,6 +2,13 @@ package cz.fjerabek.thr.data.enums.delay
 
 import cz.fjerabek.thr.data.enums.IControlProperty
 
+/**
+ * Delay properties
+ * @param propertyId ID of property
+ * @param max maximal property value
+ * @param min minimal property value
+ * @param dumpPosition position in MIDI dump array
+ */
 enum class EDelay(override val propertyId: Byte, val max : Short, val min : Short, val dumpPosition : Pair<Int, Int>) :
     IControlProperty {
     STATUS(0x3F, 0x7F, 0x00, Pair(208, -1)),

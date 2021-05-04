@@ -3,6 +3,11 @@ package cz.fjerabek.thr.data.midi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Midi message representing value change
+ * @param property property ID
+ * @param value new property value
+ */
 @Serializable
 @SerialName("Change")
 data class ChangeMessage(

@@ -2,6 +2,13 @@ package cz.fjerabek.thr.data.enums.reverb
 
 import cz.fjerabek.thr.data.enums.IControlProperty
 
+/**
+ * Hall properties
+ * @param propertyId ID of property
+ * @param max maximal property value
+ * @param min minimal property value
+ * @param dumpPosition position in MIDI dump array
+ */
 enum class EHall(override val propertyId: Byte, val max : Short, val min : Short, val dumpPosition : Pair<Int, Int>) :
     IControlProperty {
     TIME(0x41, 0xC8, 0x03, Pair(210, 211)),

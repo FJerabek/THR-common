@@ -2,6 +2,9 @@ package cz.fjerabek.thr.data.midi
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Lamp MIDI configuration message
+ */
 @Serializable
 class LampMessage(var status : Boolean): IMidiMessage {
     override val sysex: ByteArray

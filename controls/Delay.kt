@@ -5,6 +5,15 @@ import cz.fjerabek.thr.data.enums.InvalidPropertyException
 import cz.fjerabek.thr.data.enums.delay.EDelay
 import kotlinx.serialization.Serializable
 
+/**
+ * Delay settings block
+ * @param status power status
+ * @param time time value
+ * @param feedback feedback value
+ * @param highCut high cut value
+ * @param lowCut low cut value
+ * @param level volume value
+ */
 @Serializable
 data class Delay(
     var status: EStatus,
@@ -54,6 +63,11 @@ data class Delay(
     }
 
     companion object {
+        /**
+         * Creates Delay settings object from midi dump data
+         * @param dump data for Delay creation
+         * @return Delay instance
+         */
         fun fromDump(dump: ByteArray): Delay {
 
             return Delay(

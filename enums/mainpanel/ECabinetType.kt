@@ -1,5 +1,9 @@
 package cz.fjerabek.thr.data.enums.mainpanel
 
+/**
+ * Cabinet types
+ * @param id type ID
+ */
 enum class ECabinetType(val id : Byte) {
     AMERICAN_4X12(0x00),
     AMERICAN_2X12(0x01),
@@ -11,6 +15,10 @@ enum class ECabinetType(val id : Byte) {
     companion object {
         private val map = values().associateBy(ECabinetType::id)
 
+        /**
+         * Gets instance by id
+         * @return instance
+         */
         fun fromId(id: Byte) = map[id]
     }
 }

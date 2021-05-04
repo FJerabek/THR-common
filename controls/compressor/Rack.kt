@@ -9,6 +9,16 @@ import cz.fjerabek.thr.data.enums.compressor.ERack
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Class representing Rack type of compressor
+ * @param threshold threshold compressor value
+ * @param attack attack compressor value
+ * @param knee knee compressor value
+ * @param output output compressor value
+ * @param ratio ratio compressor value
+ * @param release release compressor value
+ * @param status compressor status
+ */
 @Serializable
 @SerialName("Rack")
 data class Rack(

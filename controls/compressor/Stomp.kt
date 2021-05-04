@@ -9,6 +9,12 @@ import cz.fjerabek.thr.data.enums.compressor.EStomp
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Stomp type of compressor
+ * @param sustain sustain compressor value
+ * @param output output compressor value
+ * @param status status of compressor
+ */
 @Serializable
 @SerialName("Stomp")
 data class Stomp(

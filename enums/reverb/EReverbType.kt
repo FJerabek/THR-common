@@ -1,5 +1,10 @@
 package cz.fjerabek.thr.data.enums.reverb
 
+
+/**
+ * Reverb types
+ * @param id id of reverb type
+ */
 enum class EReverbType(val id : Byte) {
     HALL(0x00),
     ROOM(0x01),
@@ -9,6 +14,10 @@ enum class EReverbType(val id : Byte) {
     companion object {
         private val map = values().associateBy(EReverbType::id)
 
+        /**
+         * Returns instance by value
+         * @return instance
+         */
         fun fromId(id: Byte) = map[id]
     }
 

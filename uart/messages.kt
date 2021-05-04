@@ -4,6 +4,9 @@ import cz.fjerabek.thr.data.bluetooth.IBluetoothMessage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Class representing generic UART message
+ */
 abstract class UartMessage: IBluetoothMessage {
     companion object {
         const val CMD_FW = "\$fwv\r\n"
@@ -13,6 +16,12 @@ abstract class UartMessage: IBluetoothMessage {
     }
 }
 
+/**
+ * Button press UART message
+ * @param id button id
+ * @param pressed if button is pressed
+ * @param pressedTime pressed time. Only in release messages
+ */
 @Serializable
 data class ButtonMessage(
     var id : Int,
@@ -20,6 +29,12 @@ data class ButtonMessage(
     var pressedTime : Long
 ): UartMessage()
 
+/**
+ * Firmware Version UART message
+ * @param major major version
+ * @param minor minor version
+ * @param patch patch version
+ */
 @Serializable
 @SerialName("FwVersion")
 data class FWVersionMessage(
@@ -28,6 +43,13 @@ data class FWVersionMessage(
     var patch : Int
 ): UartMessage()
 
+/**
+ * Hardware status UART message
+ * @param uptime device uptime
+ * @param battery battery percentage
+ * @param charging charging state
+ * @param current current in mA
+ */
 @Serializable
 @SerialName("HwStatus")
 data class StatusMessage(
@@ -37,9 +59,16 @@ data class StatusMessage(
     var current : Int
 ) : UartMessage()
 
+/**
+ * Shutdown UART message
+ * @param ok if message is confirmed
+ */
 @Serializable
 data class ShutdownMessage(
     val ok: Boolean
 ) : UartMessage()
 
+/**
+ * Heart beat UART message
+ */
 class HbtMessage : UartMessage()

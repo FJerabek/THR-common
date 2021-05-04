@@ -9,6 +9,12 @@ import cz.fjerabek.thr.data.enums.effect.ETremolo
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Tremolo type of effect settings
+ * @param freq frequency value
+ * @param depth depth value
+ * @param status effect power status
+ */
 @Serializable
 @SerialName("Tremolo")
 data class Tremolo(
@@ -37,6 +43,10 @@ data class Tremolo(
         }
     }
 
+    /**
+     * Creates instance from MIDI dump data
+     * @param dump MIDI dump data
+     */
     constructor(dump: ByteArray) : this(
         EStatus.fromValue(dump[EEffect.STATUS.dumpPosition])!!,
         dump[ETremolo.FREQ.dumpPosition],

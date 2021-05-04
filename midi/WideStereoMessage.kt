@@ -2,6 +2,10 @@ package cz.fjerabek.thr.data.midi
 
 import kotlinx.serialization.Serializable
 
+/**
+ * MIDI Wide stereo configuration message
+ * @param status wide stereo state
+ */
 @Serializable
 class WideStereoMessage(var status : Boolean): IMidiMessage {
     override val sysex: ByteArray

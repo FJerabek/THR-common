@@ -2,6 +2,10 @@ package cz.fjerabek.thr.data.midi
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Heartbeat MIDI message
+ * @param sysex system exclusive data
+ */
 @Serializable
 data class HeartBeatMessage(
         override val sysex: ByteArray = heartbeatData

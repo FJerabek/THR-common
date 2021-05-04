@@ -9,6 +9,13 @@ import cz.fjerabek.thr.data.enums.effect.EEffectType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Chorus type of effect settings
+ * @param speed speed value
+ * @param depth depth value
+ * @param mix mix value
+ * @param status effect status value
+ */
 @Serializable
 @SerialName("Chorus")
 data class Chorus(
@@ -41,6 +48,10 @@ data class Chorus(
         }
     }
 
+    /**
+     * Creates instance from MIDI dump data
+     * @param dump MIDI dump data
+     */
     constructor(dump: ByteArray) : this(
         EStatus.fromValue(dump[EEffect.STATUS.dumpPosition])!!,
         dump[EChorus.SPEED.dumpPosition],

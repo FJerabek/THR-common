@@ -10,6 +10,12 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
+/**
+ * Spring reverb type
+ * @param reverb reverb value
+ * @param filter filter value
+ * @param status reverb status
+ */
 @Serializable
 @SerialName("Spring")
 data class Spring(
@@ -38,6 +44,9 @@ data class Spring(
         }
     }
 
+    /**
+     * Creates Spring instance from dump data
+     */
     constructor(dump: ByteArray) : this(
         EStatus.fromValue(dump[EReverb.STATUS.dumpPosition])!!,
         dump[ESpring.REVERB.dumpPosition],

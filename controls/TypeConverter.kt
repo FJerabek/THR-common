@@ -7,9 +7,21 @@ import cz.fjerabek.thr.data.enums.mainpanel.EAmpType
 import cz.fjerabek.thr.data.enums.mainpanel.ECabinetType
 import cz.fjerabek.thr.data.enums.reverb.EReverbType
 
+/**
+ * Exception thrown when converting unsupported type
+ */
 class UnsupportedType(message: String) : Exception(message)
 
+/**
+ * Object converting MIDI types between each other
+ */
 object TypeConverter {
+    /**
+     * Converts from integer value into [T]
+     * @param value integer value
+     * @param T data type to convert to
+     * @return converted type
+     */
     inline fun <reified T> convert(value: Int): T {
         return when (T::class) {
             Byte::class -> {
@@ -40,6 +52,11 @@ object TypeConverter {
         }
     }
 
+    /**
+     * Converts from value to integer representation
+     * @param value value for conversion
+     * @return integer representation
+     */
     fun convert(value: Any): Int {
         return when (value) {
             is Byte -> value.toInt()

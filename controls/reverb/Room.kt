@@ -9,6 +9,16 @@ import cz.fjerabek.thr.data.enums.reverb.ERoom
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Room type of reverb
+ * @param time time value
+ * @param preDelay pre delay value
+ * @param lowCut low cut value
+ * @param highCut high cut value
+ * @param highRatio high ratio value
+ * @param lowRatio low ratio value
+ * @param level volume of reverb
+ */
 @Serializable
 @SerialName("Room")
 data class Room(
@@ -53,6 +63,10 @@ data class Room(
     }
 
 
+    /**
+     * Creates new instance from MIDI dump data
+     * @param dump dump data
+     */
     constructor(dump: ByteArray) : this(
         EStatus.fromValue(dump[EReverb.STATUS.dumpPosition])!!,
         (dump[ERoom.TIME.dumpPosition.first] * 128) + dump[ERoom.TIME.dumpPosition.second],

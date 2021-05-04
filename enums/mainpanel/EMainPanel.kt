@@ -2,6 +2,13 @@ package cz.fjerabek.thr.data.enums.mainpanel
 
 import cz.fjerabek.thr.data.enums.IControlProperty
 
+/**
+ * Main panel properties
+ * @param propertyId ID of property
+ * @param max maximal property value
+ * @param min minimal property value
+ * @param dumpPosition position in MIDI dump array
+ */
 enum class EMainPanel (override val propertyId: Byte, val max : Byte, val min : Byte, val dumpPosition : Int) : IControlProperty {
     AMP(0x00, 0x07, 0x00, 145),
     GAIN(0x01, 0x64, 0x00, 146),

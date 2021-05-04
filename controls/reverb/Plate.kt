@@ -10,6 +10,16 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
+/**
+ * Plate type of reverb
+ * @param time time value
+ * @param preDelay pre delay value
+ * @param lowCut low cut value
+ * @param highCut high cut value
+ * @param highRatio high ratio value
+ * @param lowRatio low ratio value
+ * @param level volume of reverb
+ */
 @Serializable
 @SerialName("Plate")
 data class Plate(
@@ -53,6 +63,10 @@ data class Plate(
         }
     }
 
+    /**
+     * Creates new instance from MIDI dump data
+     * @param dump midi dump data
+     */
     constructor(dump: ByteArray) : this(
         EStatus.fromValue(dump[EReverb.STATUS.dumpPosition])!!,
         (dump[EPlate.TIME.dumpPosition.first] * 128) + dump[EPlate.TIME.dumpPosition.second],

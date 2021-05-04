@@ -1,5 +1,9 @@
 package cz.fjerabek.thr.data.enums.mainpanel
 
+/**
+ * Amplifier types
+ * @param id type ID
+ */
 enum class EAmpType (val id : Byte) {
     CLEAN(0x00),
     CRUNCH(0x01),
