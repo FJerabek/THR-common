@@ -31,7 +31,7 @@ data class Hall(
     var highRatio: Byte,
     var lowRatio: Byte,
     var level: Byte
-) : Reverb(EReverbType.SPRING) {
+) : Reverb(EReverbType.HALL) {
 
     override fun duplicate() = this.copy()
     override fun setPropertyById(id: Byte, value: Int) {
