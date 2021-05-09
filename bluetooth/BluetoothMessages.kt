@@ -57,7 +57,7 @@ data class Connected(val connected: Boolean): IBluetoothMessage
 
 /**
  * Request for removal of presets
- * @param index preset index to remove
+ * @property index preset index to remove
  */
 @Serializable
 @SerialName("RemovePresetRq")
@@ -65,7 +65,7 @@ data class RemovePresetRq(val index: Int): IBluetoothMessage
 
 /**
  * Preset addition request
- * @param preset preset to add
+ * @property preset preset to add
  */
 @Serializable
 @SerialName("AddPresetRq")
@@ -73,7 +73,7 @@ data class AddPresetRq(val preset: PresetMessage): IBluetoothMessage
 
 /**
  * Request for replacing all presets with custom ones
- * @param presets custom presets
+ * @property presets custom presets
  */
 @Serializable
 @SerialName("SetPresetsRq")
@@ -81,7 +81,7 @@ data class SetPresetsRq(val presets: List<PresetMessage>): IBluetoothMessage
 
 /**
  * Response message with all loaded presets
- * @param presets loaded presets
+ * @property presets loaded presets
  */
 @Serializable
 @SerialName("PresetsResponse")
@@ -89,7 +89,7 @@ data class PresetsResponse(val presets: List<PresetMessage>): IBluetoothMessage
 
 /**
  * Request for setting preset on combo
- * @param index preset index
+ * @property index preset index
  */
 @Serializable
 @SerialName("PresetSelect")
@@ -97,6 +97,7 @@ data class PresetSelect(val index: Int): IBluetoothMessage
 
 /**
  * Turn on/off combo lamp
+ * @property on is lamp on
  */
 @Serializable
 @SerialName("Lamp")
@@ -104,6 +105,7 @@ data class Lamp(val on: Boolean): IBluetoothMessage
 
 /**
  * Turn on/off wide stereo
+ * @param on is wide stereo on
  */
 @Serializable
 @SerialName("WideStereo")
